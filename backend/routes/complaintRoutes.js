@@ -12,7 +12,7 @@ router.post("/add", async (req, res) => {
 
     // SEND DESCRIPTION TO ML API
     const mlResponse = await axios.post(
-      "http://127.0.0.1:8000/predict",
+      "https://smart-civic-ml.onrender.com/predict",
       {
         description: req.body.description,
       }
