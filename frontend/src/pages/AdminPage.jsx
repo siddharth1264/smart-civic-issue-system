@@ -11,7 +11,7 @@ function AdminPage() {
     try {
 
       const response = await axios.get(
-        "http://localhost:5000/api/complaints"
+        "https://smart-civic-backend-0wn9.onrender.com/api/complaints"
       );
 
       setComplaints(response.data);
@@ -36,7 +36,7 @@ function AdminPage() {
     try {
 
       await axios.put(
-        `http://localhost:5000/api/complaints/${id}`,
+        `https://smart-civic-backend-0wn9.onrender.com/api/complaints${id}`,
         { status }
       );
 
