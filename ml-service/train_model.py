@@ -1,4 +1,5 @@
 import pandas as pd
+import joblib
 
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.linear_model import LogisticRegression
@@ -21,6 +22,12 @@ X_vectorized = vectorizer.fit_transform(X)
 model = LogisticRegression()
 
 model.fit(X_vectorized, y)
+
+# SAVE MODEL
+joblib.dump(model, "model.pkl")
+joblib.dump(vectorizer, "vectorizer.pkl")
+
+print("Model Saved Successfully")
 
 # TEST
 sample = ["Huge water pipeline burst near road"]

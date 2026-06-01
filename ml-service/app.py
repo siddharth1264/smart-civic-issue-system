@@ -1,38 +1,19 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
+import joblib
 
-import pandas as pd
-
-from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.linear_model import LogisticRegression
-
-# CREATE FASTAPI APP
+# CREATE APP
 app = FastAPI()
 
-# LOAD DATASET
-data = pd.read_csv("dataset.csv")
-
-# INPUT
-X = data["description"]
-
-# OUTPUT
-y = data["severity"]
-
-# TEXT TO NUMBERS
-vectorizer = TfidfVectorizer()
-
-X_vectorized = vectorizer.fit_transform(X)
-
-# TRAIN MODEL
-model = LogisticRegression()
-
-model.fit(X_vectorized, y)
+# LOAD SAVED MODEL
+model = joblib.load("model.pkl")
+vectorizer = joblib.load("vectorizer.pkl")
 
 # REQUEST FORMAT
 class Complaint(BaseModel):
     description: str
 
-# API ROUTE
+# PREDICTION API
 @app.post("/predict")
 def predict_severity(complaint: Complaint):
 
@@ -44,4 +25,11 @@ def predict_severity(complaint: Complaint):
 
     return {
         "severity": prediction[0]
+    }
+
+# ROOT ROUTE
+@app.get("/")
+def home():
+    return {
+        "message": "ML Service Running"
     }
